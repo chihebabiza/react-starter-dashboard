@@ -1,12 +1,12 @@
 import { BookOpen, Home, Library, Settings, Users } from "lucide-react";
 
-import { Button } from "../@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../@/components/ui/card";
+} from "@/components/ui/card";
 import {
   Sidebar,
   SidebarContent,
@@ -18,7 +18,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from "../@/components/ui/sidebar";
+} from "@/components/ui/sidebar";
 import {
   Table,
   TableBody,
@@ -26,7 +26,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../@/components/ui/table";
+} from "@/components/ui/table";
 
 const navigation = [
   {
