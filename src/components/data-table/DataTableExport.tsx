@@ -1,7 +1,10 @@
+import { useEffect, useRef, useState } from "react";
 import type { Table } from "@tanstack/react-table";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { Download } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 type DataTableExportProps<TData> = {
   table: Table<TData>;
@@ -13,15 +16,32 @@ export function DataTableExport<TData>({
   table,
   fileName = "export",
 }: DataTableExportProps<TData>) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const getExportData = () => {
     return table.getFilteredRowModel().rows.map((row) => {
       const result: Record<string, unknown> = {};
 
       row.getVisibleCells().forEach((cell) => {
-        const column = cell.column;
-        const key = column.id;
-
-        result[key] = cell.getValue();
+        result[cell.column.id] = cell.getValue();
       });
 
       return result;
@@ -37,7 +57,6 @@ export function DataTableExport<TData>({
           });
 
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
 
     link.href = url;
@@ -52,7 +71,6 @@ export function DataTableExport<TData>({
 
   const exportCSV = () => {
     const exportData = getExportData();
-
     const csv = Papa.unparse(exportData);
 
     downloadFile(
@@ -61,11 +79,12 @@ export function DataTableExport<TData>({
       }),
       `${fileName}.csv`,
     );
+
+    setOpen(false);
   };
 
   const exportJSON = () => {
     const exportData = getExportData();
-
     const json = JSON.stringify(exportData, null, 2);
 
     downloadFile(
@@ -74,6 +93,8 @@ export function DataTableExport<TData>({
       }),
       `${fileName}.json`,
     );
+
+    setOpen(false);
   };
 
   const exportExcel = () => {
@@ -86,16 +107,24 @@ export function DataTableExport<TData>({
     XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
 
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
+
+    setOpen(false);
   };
 
   return (
-    <div className="relative">
-      <details className="group">
-        <summary className="flex h-9 cursor-pointer list-none items-center gap-2 rounded-md border bg-background px-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
-          <Download className="size-4" />
-          Export
-        </summary>
+    <div ref={containerRef} className="relative">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() => setOpen((current) => !current)}
+        className="h-9"
+      >
+        <Download className="mr-2 size-4" />
+        Export
+      </Button>
 
+      {open && (
         <div className="absolute right-0 z-50 mt-2 w-40 rounded-md border bg-popover p-1 shadow-md">
           <button
             type="button"
@@ -121,7 +150,7 @@ export function DataTableExport<TData>({
             Export JSON
           </button>
         </div>
-      </details>
+      )}
     </div>
   );
 }

@@ -16,9 +16,7 @@ export const columns: ColumnDef<Book>[] = [
 
   {
     accessorKey: "isbn",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ISBN" />
-    ),
+    header: "ISBN",
   },
 
   {

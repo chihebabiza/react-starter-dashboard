@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import type { Table } from "@tanstack/react-table";
 import { RotateCcw, Settings2 } from "lucide-react";
 
@@ -10,6 +11,26 @@ type DataTableViewOptionsProps<TData> = {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const columns = table
     .getAllColumns()
     .filter(
@@ -19,18 +40,24 @@ export function DataTableViewOptions<TData>({
 
   const resetColumns = () => {
     table.resetColumnVisibility();
+    setOpen(false);
   };
 
   return (
-    <div className="relative">
-      <details className="group">
-        <summary className="flex h-9 cursor-pointer list-none items-center gap-2 rounded-md border bg-background px-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground">
-          <Settings2 className="size-4" />
-          View
-        </summary>
+    <div ref={containerRef} className="relative">
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() => setOpen((current) => !current)}
+        className="h-9"
+      >
+        <Settings2 className="mr-2 size-4" />
+        View
+      </Button>
 
+      {open && (
         <div className="absolute right-0 z-50 mt-2 w-52 rounded-md border bg-popover p-2 shadow-md">
-          {/* Header */}
           <div className="flex items-center justify-between border-b px-2 pb-2">
             <span className="text-sm font-medium">Toggle columns</span>
 
@@ -46,7 +73,6 @@ export function DataTableViewOptions<TData>({
             </Button>
           </div>
 
-          {/* Columns */}
           <div className="mt-2 space-y-1">
             {columns.map((column) => {
               const title =
@@ -72,7 +98,6 @@ export function DataTableViewOptions<TData>({
             })}
           </div>
 
-          {/* Reset button */}
           <div className="mt-2 border-t pt-2">
             <Button
               type="button"
@@ -86,7 +111,7 @@ export function DataTableViewOptions<TData>({
             </Button>
           </div>
         </div>
-      </details>
+      )}
     </div>
   );
 }
