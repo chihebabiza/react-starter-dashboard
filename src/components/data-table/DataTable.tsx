@@ -13,6 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -67,6 +68,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full space-y-4">
+      {/* Search */}
       <div className="flex items-center">
         <Input
           placeholder="Search..."
@@ -76,21 +78,42 @@ export function DataTable<TData, TValue>({
         />
       </div>
 
+      {/* Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const sorted = header.column.getIsSorted();
+
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder ? null : (
+                        <button
+                          type="button"
+                          onClick={header.column.getToggleSortingHandler()}
+                          className="flex items-center gap-2 font-medium"
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+
+                          <span className="text-muted-foreground">
+                            {sorted === "asc" ? (
+                              <ArrowUp className="size-4" />
+                            ) : sorted === "desc" ? (
+                              <ArrowDown className="size-4" />
+                            ) : (
+                              <ArrowUpDown className="size-4" />
+                            )}
+                          </span>
+                        </button>
+                      )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
           </TableHeader>
@@ -100,7 +123,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() ? "selected" : undefined}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
