@@ -27,8 +27,6 @@ export function Header() {
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        <Button className="hidden sm:flex">Add Book</Button>
-
         <Button
           variant="ghost"
           size="icon"
