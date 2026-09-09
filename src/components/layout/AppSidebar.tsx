@@ -1,4 +1,5 @@
 import { BookOpen } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 import {
   Sidebar,
@@ -10,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
 import {
   Tooltip,
   TooltipContent,
@@ -19,11 +21,7 @@ import {
 
 import { navigation } from "@/data/navigation";
 
-export function AppSidebar({
-  onNavigate,
-}: {
-  onNavigate: (page: string) => void;
-}) {
+export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -45,11 +43,11 @@ export function AppSidebar({
                   <SidebarMenuItem key={item.title}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <SidebarMenuButton
-                          onClick={() => onNavigate(item.title)}
-                        >
-                          <item.icon />
-                          <span>{item.title}</span>
+                        <SidebarMenuButton asChild>
+                          <NavLink to={item.path}>
+                            <item.icon />
+                            <span>{item.title}</span>
+                          </NavLink>
                         </SidebarMenuButton>
                       </TooltipTrigger>
 

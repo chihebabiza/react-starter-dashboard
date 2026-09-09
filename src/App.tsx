@@ -1,58 +1,20 @@
+import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Header } from "@/components/layout/Header";
 
-import { WelcomeSection } from "@/components/dashboard/WelcomeSection";
-import { StatCard } from "@/components/dashboard/StatCard";
-import { RecentBooks } from "@/components/dashboard/RecentBooks";
-import { useState } from "react";
-import { Books } from "@/features/books/pages/Books";
 function App() {
-  const [currentPage, setCurrentPage] = useState("dashboard");
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background text-foreground">
-        <AppSidebar onNavigate={setCurrentPage} />
+        <AppSidebar />
+
         <div className="flex min-w-0 flex-1 flex-col">
           <Header />
 
           <main className="flex-1 space-y-6 p-4 md:p-6">
-            {currentPage === "Books" ? (
-              <Books />
-            ) : (
-              <>
-                <WelcomeSection />
-
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                  <StatCard
-                    title="Total Books"
-                    value="1,248"
-                    description="+12% from last month"
-                  />
-
-                  <StatCard
-                    title="Members"
-                    value="342"
-                    description="+8% from last month"
-                  />
-
-                  <StatCard
-                    title="Borrowed"
-                    value="186"
-                    description="14 due this week"
-                  />
-
-                  <StatCard
-                    title="Available"
-                    value="1,062"
-                    description="85% of total collection"
-                  />
-                </div>
-
-                <RecentBooks />
-              </>
-            )}
+            <Outlet />
           </main>
         </div>
       </div>

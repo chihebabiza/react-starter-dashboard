@@ -1,10 +1,19 @@
-import { BookOpen, Home, Library, Settings, Users } from "lucide-react";
+import { BookOpen, Home, Users } from "lucide-react";
 
 export const navigation = [
-  { title: "Dashboard", icon: Home },
-  { title: "Books", icon: BookOpen },
-  { title: "Members", icon: Users },
-  { title: "Library", icon: Library },
-  { title: "Settings", icon: Settings },
-  { title: "Authors", icon: Users },
+  {
+    title: "Dashboard",
+    path: "/",
+    icon: Home,
+  },
+  {
+    title: "Books",
+    path: "/books",
+    icon: BookOpen,
+  },
+  {
+    title: "Authors",
+    path: "/authors",
+    icon: Users,
+  },
 ];
