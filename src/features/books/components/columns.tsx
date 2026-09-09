@@ -1,30 +1,45 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import type { Book } from "@/features/books/types/book.types";
+import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
 
 export const columns: ColumnDef<Book>[] = [
   {
     accessorKey: "title",
-    header: "Title",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Title" />
+    ),
     cell: ({ row }) => (
       <div className="font-medium">{row.getValue("title")}</div>
     ),
   },
+
   {
     accessorKey: "isbn",
-    header: "ISBN",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ISBN" />
+    ),
   },
+
   {
     accessorKey: "authorName",
-    header: "Author",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Author" />
+    ),
   },
+
   {
     accessorKey: "categoryName",
-    header: "Category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Category" />
+    ),
   },
+
   {
     accessorKey: "publishedDate",
-    header: "Published",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Published" />
+    ),
     cell: ({ row }) => {
       const value = row.getValue("publishedDate") as string | null;
 
@@ -37,9 +52,12 @@ export const columns: ColumnDef<Book>[] = [
       }).format(new Date(value));
     },
   },
+
   {
     accessorKey: "createdAt",
-    header: "Created",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created" />
+    ),
     cell: ({ row }) => {
       const value = row.getValue("createdAt") as string;
 

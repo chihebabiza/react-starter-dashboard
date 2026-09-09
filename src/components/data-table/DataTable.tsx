@@ -13,9 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -25,19 +23,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { DataTableToolbar } from "./DataTableToolbar";
+import { DataTablePagination } from "./DataTablePagination";
+
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+
+  searchPlaceholder?: string;
+  exportFileName?: string;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  exportFileName = "export",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
   const [rowSelection, setRowSelection] = useState({});
+
   const [globalFilter, setGlobalFilter] = useState("");
 
   const table = useReactTable({
@@ -53,30 +62,40 @@ export function DataTable<TData, TValue>({
     },
 
     onSortingChange: setSorting,
+
     onColumnFiltersChange: setColumnFilters,
+
     onColumnVisibilityChange: setColumnVisibility,
+
     onRowSelectionChange: setRowSelection,
+
     onGlobalFilterChange: setGlobalFilter,
 
     globalFilterFn: "includesString",
 
     getCoreRowModel: getCoreRowModel(),
+
     getFilteredRowModel: getFilteredRowModel(),
+
     getSortedRowModel: getSortedRowModel(),
+
     getPaginationRowModel: getPaginationRowModel(),
+
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   return (
     <div className="w-full space-y-4">
-      {/* Search */}
-      <div className="flex items-center">
-        <Input
-          placeholder="Search..."
-          value={globalFilter}
-          onChange={(event) => setGlobalFilter(event.target.value)}
-          className="max-w-sm"
-        />
-      </div>
+      {/* Toolbar */}
+      <DataTableToolbar
+        table={table}
+        data={data}
+        exportFileName={exportFileName}
+      />
 
       {/* Table */}
       <div className="rounded-md border">
@@ -84,36 +103,16 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  const sorted = header.column.getIsSorted();
-
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <button
-                          type="button"
-                          onClick={header.column.getToggleSortingHandler()}
-                          className="flex items-center gap-2 font-medium"
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-
-                          <span className="text-muted-foreground">
-                            {sorted === "asc" ? (
-                              <ArrowUp className="size-4" />
-                            ) : sorted === "desc" ? (
-                              <ArrowDown className="size-4" />
-                            ) : (
-                              <ArrowUpDown className="size-4" />
-                            )}
-                          </span>
-                        </button>
-                      )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -138,7 +137,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getVisibleLeafColumns().length}
                   className="h-24 text-center"
                 >
                   No results.
@@ -148,6 +147,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      <DataTablePagination table={table} />
     </div>
   );
 }
