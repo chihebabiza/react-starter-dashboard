@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { LogOut, Moon, Settings, Sun, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,13 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useTheme } from "@/context/useTheme";
 
 export function Header() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setDarkMode((value) => !value);
-  };
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="flex h-16 items-center border-b px-4 md:px-6">
@@ -36,10 +32,10 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={toggleDarkMode}
+          onClick={toggleTheme}
           aria-label="Toggle theme"
         >
-          {darkMode ? (
+          {theme === "dark" ? (
             <Sun className="h-5 w-5" />
           ) : (
             <Moon className="h-5 w-5" />
