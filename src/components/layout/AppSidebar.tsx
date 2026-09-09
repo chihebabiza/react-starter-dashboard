@@ -10,6 +10,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { navigation } from "@/data/navigation";
 
@@ -17,25 +23,36 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
-        <div className="flex h-16 items-center border-b px-6">
-          <BookOpen className="mr-2 h-5 w-5" />
-          <span className="text-lg font-semibold">BookFlow</span>
+        <div className="flex h-16 items-center justify-center border-b px-2 group-data-[collapsible=icon]:px-0">
+          <BookOpen className="h-5 w-5 shrink-0" />
+
+          <span className="ml-2 text-lg font-semibold group-data-[collapsible=icon]:hidden">
+            BookFlow
+          </span>
         </div>
 
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu>
-              {navigation.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
+            <TooltipProvider>
+              <SidebarMenu>
+                {navigation.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <SidebarMenuButton>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </SidebarMenuButton>
+                      </TooltipTrigger>
+
+                      <TooltipContent side="right">{item.title}</TooltipContent>
+                    </Tooltip>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </TooltipProvider>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
