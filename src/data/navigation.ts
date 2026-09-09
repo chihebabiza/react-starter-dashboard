@@ -6,4 +6,5 @@ export const navigation = [
   { title: "Members", icon: Users },
   { title: "Library", icon: Library },
   { title: "Settings", icon: Settings },
+  { title: "Authors", icon: Users },
 ];

@@ -8,7 +8,6 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { RecentBooks } from "@/components/dashboard/RecentBooks";
 import { useState } from "react";
 import { Books } from "@/features/books/pages/Books";
-
 function App() {
   const [currentPage, setCurrentPage] = useState("dashboard");
   return (
