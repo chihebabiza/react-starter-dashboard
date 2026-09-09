@@ -19,7 +19,11 @@ import {
 
 import { navigation } from "@/data/navigation";
 
-export function AppSidebar() {
+export function AppSidebar({
+  onNavigate,
+}: {
+  onNavigate: (page: string) => void;
+}) {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
@@ -41,7 +45,9 @@ export function AppSidebar() {
                   <SidebarMenuItem key={item.title}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton
+                          onClick={() => onNavigate(item.title)}
+                        >
                           <item.icon />
                           <span>{item.title}</span>
                         </SidebarMenuButton>
