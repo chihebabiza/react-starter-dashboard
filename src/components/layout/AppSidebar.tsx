@@ -15,7 +15,7 @@ import { navigation } from "@/data/navigation";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <div className="flex h-16 items-center border-b px-6">
           <BookOpen className="mr-2 h-5 w-5" />
