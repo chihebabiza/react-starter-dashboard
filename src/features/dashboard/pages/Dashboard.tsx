@@ -2,7 +2,7 @@ import { WelcomeSection } from "@/features/dashboard/components/WelcomeSection";
 import { StatCard } from "@/features/dashboard/components/StatCard";
 import { RecentBooks } from "@/features/dashboard/components/RecentBooks";
 
-export function DashboardPage() {
+export function Dashboard() {
   return (
     <>
       <WelcomeSection />
