@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { AuthorActions } from "@/features/authors/components/AuthorActions";
 import type { Author } from "../types/author.types";
 
 export const columns: ColumnDef<Author>[] = [
@@ -23,12 +24,12 @@ export const columns: ColumnDef<Author>[] = [
     ),
   },
   {
-    accessorKey: "countryName",
+    id: "country",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Country" />
     ),
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("countryName")}</div>
+      <div className="font-medium">{row.original.country.name}</div>
     ),
   },
 
@@ -48,5 +49,10 @@ export const columns: ColumnDef<Author>[] = [
         dateStyle: "medium",
       }).format(new Date(value));
     },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <AuthorActions author={row.original} />,
   },
 ];

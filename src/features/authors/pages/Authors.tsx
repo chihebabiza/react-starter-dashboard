@@ -1,18 +1,13 @@
 import { DataTable } from "@/components/data-table/DataTable";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { BookForm } from "../components/AuthorForm";
+import { FormSheet } from "@/components/common/FormSheet";
+import { CreateAuthorForm } from "@/features/authors/components/CreateAuthorForm";
+import { useState } from "react";
 import { useAuthors } from "../hooks/useAuthors";
 import { columns } from "../components/columns";
 
 export function Authors() {
+  const [addOpen, setAddOpen] = useState(false);
   const { data: authors, isLoading, isError, error } = useAuthors();
 
   if (isLoading) {
@@ -40,25 +35,12 @@ export function Authors() {
             Manage and organize your library authors.
           </p>
         </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Add Author</Button>
-          </SheetTrigger>
-
-          <SheetContent className="sm:max-w-lg">
-            <SheetHeader>
-              <SheetTitle>Add Author</SheetTitle>
-              <SheetDescription>
-                Add a new author to your library.
-              </SheetDescription>
-            </SheetHeader>
-
-            <div className="mt-6">
-              <BookForm />
-            </div>
-          </SheetContent>
-        </Sheet>
+        <Button onClick={() => setAddOpen(true)}>Add Author</Button>
       </div>
+
+      <FormSheet open={addOpen} onOpenChange={setAddOpen}>
+        <CreateAuthorForm onSuccess={() => setAddOpen(false)} />
+      </FormSheet>
 
       <DataTable columns={columns} data={authors ?? []} />
     </div>

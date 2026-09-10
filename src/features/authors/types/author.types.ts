@@ -1,9 +1,11 @@
+import type { Country } from "@/features/countries/types/country.types";
+
 export type Author = {
   id: number;
   firstName: string;
   lastName: string;
   createdAt: string;
-  countryName: string;
+  country: Country;
 };
 
 export type AuthorCreate = {
