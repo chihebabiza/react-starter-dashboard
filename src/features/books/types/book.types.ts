@@ -9,6 +9,11 @@ export type Book = {
   createdAt: string;
   author: Author;
   category: Category;
+  availableCopies: number;
+  totalCopies: number;
+  borrowedCopies: number;
+  damagedCopies: number;
+  lostCopies: number;
 };
 
 export type BookCreate = {

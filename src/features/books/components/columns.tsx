@@ -81,6 +81,37 @@ export const columns: ColumnDef<Book>[] = [
   },
 
   {
+    accessorKey: "availableCopies",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Available Copies" />
+    ),
+  },
+  {
+    accessorKey: "totalCopies",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Total Copies" />
+    ),
+  },
+  {
+    accessorKey: "borrowedCopies",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Borrowed Copies" />
+    ),
+  },
+  {
+    accessorKey: "damagedCopies",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Damaged Copies" />
+    ),
+  },
+  {
+    accessorKey: "lostCopies",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Lost Copies" />
+    ),
+  },
+
+  {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
