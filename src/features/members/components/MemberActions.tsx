@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { BookPlus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { ActionButtons } from "@/components/common/ActionButtons";
@@ -9,6 +9,7 @@ import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { FormSheet } from "@/components/common/FormSheet";
 import { useDeleteMember } from "@/features/members/hooks/useMembers";
 import type { Member } from "@/features/members/types/member.types";
+import { CreateLoanForm } from "./CreateLoanForm";
 import { EditMemberForm } from "./EditMemberForm";
 
 type MemberActionsProps = {
@@ -18,6 +19,7 @@ type MemberActionsProps = {
 export function MemberActions({ member }: MemberActionsProps) {
   const [editOpen, setEditOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [loanOpen, setLoanOpen] = React.useState(false);
   const deleteMemberMutation = useDeleteMember();
 
   async function handleDelete() {
@@ -38,6 +40,12 @@ export function MemberActions({ member }: MemberActionsProps) {
       <ActionButtons
         actions={[
           {
+            label: "Add loan for member",
+            icon: <BookPlus className="h-4 w-4" />,
+            onClick: () => setLoanOpen(true),
+            className: "text-green-600 hover:bg-green-50 hover:text-green-700",
+          },
+          {
             label: "Edit member",
             icon: <Pencil className="h-4 w-4" />,
             onClick: () => setEditOpen(true),
@@ -54,6 +62,9 @@ export function MemberActions({ member }: MemberActionsProps) {
       />
       <FormSheet open={editOpen} onOpenChange={setEditOpen}>
         <EditMemberForm member={member} onSuccess={() => setEditOpen(false)} />
+      </FormSheet>
+      <FormSheet open={loanOpen} onOpenChange={setLoanOpen}>
+        <CreateLoanForm member={member} onSuccess={() => setLoanOpen(false)} />
       </FormSheet>
       <ConfirmDialog
         open={deleteOpen}
