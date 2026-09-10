@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { FormField } from "@/components/common/FormField";
 import { FormSubmitButton } from "@/components/common/FormSubmitButton";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { useUpdateMember } from "@/features/members/hooks/useMembers";
 import type {
   Member,
@@ -26,6 +27,7 @@ export function EditMemberForm({ member, onSuccess }: EditMemberFormProps) {
   const updateMemberMutation = useUpdateMember();
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isDirty },
   } = useForm<EditMemberFormData>({
@@ -96,11 +98,18 @@ export function EditMemberForm({ member, onSuccess }: EditMemberFormProps) {
           />
         </FormField>
         <FormField label="Active">
-          <input
-            id="member-active"
-            type="checkbox"
-            className="h-4 w-4"
-            {...register("isActive")}
+          <Controller
+            name="isActive"
+            control={control}
+            render={({ field }) => (
+              <Switch
+                id="member-active"
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                disabled={updateMemberMutation.isPending}
+                aria-label="Member is active"
+              />
+            )}
           />
         </FormField>
       </div>
