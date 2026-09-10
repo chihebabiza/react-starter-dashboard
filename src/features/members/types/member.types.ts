@@ -1,19 +1,21 @@
-export type Author = {
+export type Member = {
   id: number;
   firstName: string;
   lastName: string;
+  phone: string;
   createdAt: string;
-  countryName: string;
+  isActive: boolean;
 };
 
-export type AuthorCreate = {
+export type MemberCreate = {
   firstName: string;
   lastName: string;
-  countryId: number;
+  phone: string;
 };
 
-export type AuthorUpdate = {
+export type MemberUpdate = {
   firstName: string;
   lastName: string;
-  countryId: number;
+  phone: string;
+  isActive: boolean;
 };

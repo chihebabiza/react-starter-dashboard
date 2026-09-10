@@ -9,22 +9,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { BookForm } from "../components/MemberForm";
-import { useAuthors } from "../hooks/useMembers";
+import { useMembers } from "../hooks/useMembers";
 import { columns } from "../components/columns";
 
-export function Authors() {
-  const { data: authors, isLoading, isError, error } = useAuthors();
+export function Members() {
+  const { data: members, isLoading, isError, error } = useMembers();
 
   if (isLoading) {
-    return <div>Loading authors...</div>;
+    return <div>Loading members...</div>;
   }
 
   if (isError) {
     return (
       <div>
-        <h1 className="text-2xl font-bold">Authors</h1>
+        <h1 className="text-2xl font-bold">Members</h1>
         <p className="text-destructive">
-          {error instanceof Error ? error.message : "Failed to load authors."}
+          {error instanceof Error ? error.message : "Failed to load members."}
         </p>
       </div>
     );
@@ -34,22 +34,22 @@ export function Authors() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Authors</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Members</h1>
 
           <p className="text-muted-foreground">
-            Manage and organize your library authors.
+            Manage and organize your library members.
           </p>
         </div>
         <Sheet>
           <SheetTrigger asChild>
-            <Button>Add Author</Button>
+            <Button>Add Member</Button>
           </SheetTrigger>
 
           <SheetContent className="sm:max-w-lg">
             <SheetHeader>
-              <SheetTitle>Add Author</SheetTitle>
+              <SheetTitle>Add Member</SheetTitle>
               <SheetDescription>
-                Add a new author to your library.
+                Add a new member to your library.
               </SheetDescription>
             </SheetHeader>
 
@@ -60,7 +60,7 @@ export function Authors() {
         </Sheet>
       </div>
 
-      <DataTable columns={columns} data={authors ?? []} />
+      <DataTable columns={columns} data={members ?? []} />
     </div>
   );
 }

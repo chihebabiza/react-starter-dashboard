@@ -1,9 +1,9 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
-import type { Author } from "../types/member.types";
+import type { Member } from "../types/member.types";
 
-export const columns: ColumnDef<Author>[] = [
+export const columns: ColumnDef<Member>[] = [
   {
     accessorKey: "firstName",
     header: ({ column }) => (
@@ -23,12 +23,12 @@ export const columns: ColumnDef<Author>[] = [
     ),
   },
   {
-    accessorKey: "countryName",
+    accessorKey: "phone",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Country" />
+      <DataTableColumnHeader column={column} title="Phone" />
     ),
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("countryName")}</div>
+      <div className="font-medium">{row.getValue("phone")}</div>
     ),
   },
 
@@ -47,6 +47,21 @@ export const columns: ColumnDef<Author>[] = [
       return new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
       }).format(new Date(value));
+    },
+  },
+  {
+    accessorKey: "isActive",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Active" />
+    ),
+    cell: ({ row }) => {
+      const value = row.getValue("isActive") as boolean | null;
+
+      if (!value) {
+        return "-";
+      }
+
+      return value ? "Yes" : "No";
     },
   },
 ];

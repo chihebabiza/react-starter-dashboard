@@ -5,6 +5,7 @@ import { Books } from "@/features/books/pages/Books";
 import { Dashboard } from "./features/dashboard/pages/Dashboard";
 import { Authors } from "./features/authors/pages/Authors";
 import { Categories } from "./features/categories/pages/Categories";
+import { Members } from "./features/members/pages/Members";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "categories",
         element: <Categories />,
+      },
+      {
+        path: "members",
+        element: <Members />,
       },
     ],
   },

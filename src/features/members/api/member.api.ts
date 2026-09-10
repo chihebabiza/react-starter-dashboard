@@ -1,25 +1,25 @@
 import { apiClient } from "@/lib/api-client";
-import type { Author, AuthorCreate, AuthorUpdate } from "../types/member.types";
+import type { Member, MemberCreate, MemberUpdate } from "../types/member.types";
 
-export const authorsApi = {
-  getAll: () => apiClient<Author[]>("/Author"),
+export const membersApi = {
+  getAll: () => apiClient<Member[]>("/Member"),
 
-  getById: (id: number) => apiClient<Author>(`/Author/${id}`),
+  getById: (id: number) => apiClient<Member>(`/Member/${id}`),
 
-  create: (author: AuthorCreate) =>
-    apiClient<Author>("/Author", {
+  create: (member: MemberCreate) =>
+    apiClient<Member>("/Member", {
       method: "POST",
-      body: JSON.stringify(author),
+      body: JSON.stringify(member),
     }),
 
-  update: (id: number, author: AuthorUpdate) =>
-    apiClient<Author>(`/Author/${id}`, {
+  update: (id: number, member: MemberUpdate) =>
+    apiClient<Member>(`/Member/${id}`, {
       method: "PUT",
-      body: JSON.stringify(author),
+      body: JSON.stringify(member),
     }),
 
   delete: (id: number) =>
-    apiClient<void>(`/Author/${id}`, {
+    apiClient<void>(`/Member/${id}`, {
       method: "DELETE",
     }),
 };

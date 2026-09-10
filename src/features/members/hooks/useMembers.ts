@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { authorsApi } from "../api/member.api";
+import { membersApi } from "../api/member.api";
 
-export function useAuthors() {
+export function useMembers() {
   return useQuery({
-    queryKey: ["authors"],
-    queryFn: authorsApi.getAll,
+    queryKey: ["members"],
+    queryFn: membersApi.getAll,
   });
 }
