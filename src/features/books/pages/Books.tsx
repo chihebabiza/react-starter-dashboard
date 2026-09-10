@@ -10,10 +10,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { BookForm } from "../components/BookForm";
+import { useCategories } from "@/features/categories/hooks/useCategories";
+import { useAuthors } from "@/features/authors/hooks/useAuthors";
+import { CreateBookForm } from "../components/CreateBookForm";
 
 export function Books() {
   const { data: books, isLoading, isError, error } = useBooks();
+  const { data: authors } = useAuthors();
+  const { data: categories } = useCategories();
 
   if (isLoading) {
     return <div>Loading books...</div>;
@@ -54,7 +58,10 @@ export function Books() {
             </SheetHeader>
 
             <div className="mt-6">
-              <BookForm />
+              <CreateBookForm
+                authors={authors ?? []}
+                categories={categories ?? []}
+              />
             </div>
           </SheetContent>
         </Sheet>

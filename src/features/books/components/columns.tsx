@@ -1,7 +1,8 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
-import type { Book } from "@/features/books/types/book.types";
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { BookActions } from "@/features/books/components/BookActions";
+import type { Book } from "@/features/books/types/book.types";
 
 export const columns: ColumnDef<Book>[] = [
   {
@@ -16,21 +17,35 @@ export const columns: ColumnDef<Book>[] = [
 
   {
     accessorKey: "isbn",
-    header: "ISBN",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ISBN" />
+    ),
   },
 
   {
-    accessorKey: "authorName",
+    id: "author",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author" />
     ),
+    cell: ({ row }) => {
+      const author = row.original.author;
+
+      return (
+        <div>
+          {author.firstName} {author.lastName}
+        </div>
+      );
+    },
   },
 
   {
-    accessorKey: "categoryName",
+    id: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
     ),
+    cell: ({ row }) => {
+      return <div>{row.original.category.name}</div>;
+    },
   },
 
   {
@@ -62,6 +77,14 @@ export const columns: ColumnDef<Book>[] = [
       return new Intl.DateTimeFormat("en-US", {
         dateStyle: "medium",
       }).format(new Date(value));
+    },
+  },
+
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      return <BookActions book={row.original} />;
     },
   },
 ];

@@ -3,12 +3,14 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Header } from "@/components/layout/Header";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background text-foreground">
         <AppSidebar />
+        <Toaster />
 
         <div className="flex min-w-0 flex-1 flex-col">
           <Header />

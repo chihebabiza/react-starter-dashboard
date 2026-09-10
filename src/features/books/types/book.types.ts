@@ -1,11 +1,14 @@
+import type { Author } from "@/features/authors/types/author.types";
+import type { Category } from "@/features/categories/types/category.types";
+
 export type Book = {
   id: number;
   title: string;
   isbn: string;
   publishedDate: string | null;
   createdAt: string;
-  authorName: string;
-  categoryName: string;
+  author: Author;
+  category: Category;
 };
 
 export type BookCreate = {
