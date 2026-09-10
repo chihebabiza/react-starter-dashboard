@@ -9,30 +9,13 @@ import type { BookCreate } from "@/features/books/types/book.types";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { FormField } from "@/components/common/FormField";
 import { FormSubmitButton } from "@/components/common/FormSubmitButton";
-
-const createBookSchema = z.object({
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(100, "Title must be less than 100 characters"),
-
-  isbn: z
-    .string()
-    .min(1, "ISBN is required")
-    .max(20, "ISBN must be less than 20 characters"),
-
-  authorId: z.number().int().positive("Please select an author"),
-
-  categoryId: z.number().int().positive("Please select a category"),
-
-  publishedDate: z.string().min(1, "Published date is required"),
-});
-
-type CreateBookFormData = z.infer<typeof createBookSchema>;
+import {
+  createBookSchema,
+  type CreateBookFormData,
+} from "../schemas/book.schema";
 
 interface CreateBookFormProps {
   onSuccess: () => void;
