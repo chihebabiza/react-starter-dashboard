@@ -27,7 +27,7 @@ export function EditBookForm({ book, onSuccess }: EditBookFormProps) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<EditBookFormData>({
     resolver: zodResolver(editBookSchema),
     defaultValues: {
@@ -145,6 +145,7 @@ export function EditBookForm({ book, onSuccess }: EditBookFormProps) {
 
       <FormSubmitButton
         isPending={updateBookMutation.isPending}
+        disabled={updateBookMutation.isPending || !isDirty}
         pendingText="Updating..."
       >
         Update Book
