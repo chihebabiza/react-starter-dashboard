@@ -6,8 +6,6 @@ import { toast } from "sonner";
 
 import type { Book } from "@/features/books/types/book.types";
 import { useDeleteBook } from "@/features/books/hooks/useBooks";
-import { useAuthors } from "@/features/authors/hooks/useAuthors";
-import { useCategories } from "@/features/categories/hooks/useCategories";
 
 import { EditBookForm } from "./EditBookForm";
 import { ActionButtons } from "@/components/common/ActionButtons";
@@ -24,20 +22,14 @@ export function BookActions({ book }: BookActionsProps) {
 
   const deleteBookMutation = useDeleteBook();
 
-  const { data: authors } = useAuthors();
-  const { data: categories } = useCategories();
-
   const handleDelete = async () => {
     try {
       await deleteBookMutation.mutateAsync(book.id);
 
       toast.success("Book deleted successfully");
-
       setDeleteOpen(false);
     } catch (error) {
       console.error("Failed to delete book:", error);
-
-      setDeleteOpen(false);
 
       toast.error(
         error instanceof Error ? error.message : "Failed to delete book",
@@ -66,12 +58,7 @@ export function BookActions({ book }: BookActionsProps) {
       />
 
       <FormSheet open={editOpen} onOpenChange={setEditOpen}>
-        <EditBookForm
-          book={book}
-          authors={authors ?? []}
-          categories={categories ?? []}
-          onSuccess={() => setEditOpen(false)}
-        />
+        <EditBookForm book={book} onSuccess={() => setEditOpen(false)} />
       </FormSheet>
 
       <ConfirmDialog
