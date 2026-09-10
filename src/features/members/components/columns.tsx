@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { MemberActions } from "@/features/members/components/MemberActions";
 import type { Member } from "../types/member.types";
 
 export const columns: ColumnDef<Member>[] = [
@@ -55,13 +56,18 @@ export const columns: ColumnDef<Member>[] = [
       <DataTableColumnHeader column={column} title="Active" />
     ),
     cell: ({ row }) => {
-      const value = row.getValue("isActive") as boolean | null;
+      const value = row.getValue("isActive") as boolean | null | undefined;
 
-      if (!value) {
+      if (value === null || value === undefined) {
         return "-";
       }
 
       return value ? "Yes" : "No";
     },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <MemberActions member={row.original} />,
   },
 ];

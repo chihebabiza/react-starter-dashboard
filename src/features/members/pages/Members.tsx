@@ -1,18 +1,14 @@
+import { useState } from "react";
+
+import { FormSheet } from "@/components/common/FormSheet";
 import { DataTable } from "@/components/data-table/DataTable";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { BookForm } from "../components/MemberForm";
+import { CreateMemberForm } from "@/features/members/components/CreateMemberForm";
 import { useMembers } from "../hooks/useMembers";
 import { columns } from "../components/columns";
 
 export function Members() {
+  const [addOpen, setAddOpen] = useState(false);
   const { data: members, isLoading, isError, error } = useMembers();
 
   if (isLoading) {
@@ -40,25 +36,12 @@ export function Members() {
             Manage and organize your library members.
           </p>
         </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Add Member</Button>
-          </SheetTrigger>
-
-          <SheetContent className="sm:max-w-lg">
-            <SheetHeader>
-              <SheetTitle>Add Member</SheetTitle>
-              <SheetDescription>
-                Add a new member to your library.
-              </SheetDescription>
-            </SheetHeader>
-
-            <div className="mt-6">
-              <BookForm />
-            </div>
-          </SheetContent>
-        </Sheet>
+        <Button onClick={() => setAddOpen(true)}>Add Member</Button>
       </div>
+
+      <FormSheet open={addOpen} onOpenChange={setAddOpen}>
+        <CreateMemberForm onSuccess={() => setAddOpen(false)} />
+      </FormSheet>
 
       <DataTable columns={columns} data={members ?? []} />
     </div>
