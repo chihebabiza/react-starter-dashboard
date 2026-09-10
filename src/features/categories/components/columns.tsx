@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
+import { CategoryActions } from "@/features/categories/components/CategoryActions";
 import type { Category } from "../types/category.types";
 
 export const columns: ColumnDef<Category>[] = [
@@ -30,5 +31,10 @@ export const columns: ColumnDef<Category>[] = [
         dateStyle: "medium",
       }).format(new Date(value));
     },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <CategoryActions category={row.original} />,
   },
 ];
