@@ -17,6 +17,7 @@ export type BookCreate = {
   authorId: number;
   categoryId: number;
   publishedDate: string;
+  quantity: number;
 };
 
 export type BookUpdate = {

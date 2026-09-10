@@ -18,7 +18,9 @@ const bookFormSchema = z.object({
   publishedDate: z.string().min(1, "Published date is required"),
 });
 
-export const createBookSchema = bookFormSchema;
+export const createBookSchema = bookFormSchema.extend({
+  quantity: z.number().int().positive("Quantity must be greater than 0"),
+});
 export const editBookSchema = bookFormSchema;
 
 export type CreateBookFormData = z.infer<typeof createBookSchema>;

@@ -40,6 +40,7 @@ export function CreateBookForm({ onSuccess }: CreateBookFormProps) {
       authorId: 0,
       categoryId: 0,
       publishedDate: "",
+      quantity: 1,
     },
   });
 
@@ -51,6 +52,7 @@ export function CreateBookForm({ onSuccess }: CreateBookFormProps) {
         authorId: data.authorId,
         categoryId: data.categoryId,
         publishedDate: data.publishedDate,
+        quantity: data.quantity,
       };
 
       await createBookMutation.mutateAsync(book);
@@ -137,6 +139,15 @@ export function CreateBookForm({ onSuccess }: CreateBookFormProps) {
             id="book-published-date"
             type="date"
             {...register("publishedDate")}
+          />
+        </FormField>
+        {/* Quantity */}
+        <FormField label="Quantity" required error={errors.quantity?.message}>
+          <Input
+            id="book-quantity"
+            type="number"
+            min={1}
+            {...register("quantity", { valueAsNumber: true })}
           />
         </FormField>
       </div>
