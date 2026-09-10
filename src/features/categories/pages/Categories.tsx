@@ -9,22 +9,24 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { BookForm } from "../components/CategoryForm";
-import { useAuthors } from "../hooks/useCategories";
+import { useCategories } from "../hooks/useCategories";
 import { columns } from "../components/columns";
 
-export function Authors() {
-  const { data: authors, isLoading, isError, error } = useAuthors();
+export function Categories() {
+  const { data: categories, isLoading, isError, error } = useCategories();
 
   if (isLoading) {
-    return <div>Loading authors...</div>;
+    return <div>Loading categories...</div>;
   }
 
   if (isError) {
     return (
       <div>
-        <h1 className="text-2xl font-bold">Authors</h1>
+        <h1 className="text-2xl font-bold">Categories</h1>
         <p className="text-destructive">
-          {error instanceof Error ? error.message : "Failed to load authors."}
+          {error instanceof Error
+            ? error.message
+            : "Failed to load categories."}
         </p>
       </div>
     );
@@ -60,7 +62,7 @@ export function Authors() {
         </Sheet>
       </div>
 
-      <DataTable columns={columns} data={authors ?? []} />
+      <DataTable columns={columns} data={categories ?? []} />
     </div>
   );
 }

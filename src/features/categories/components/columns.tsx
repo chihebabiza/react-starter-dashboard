@@ -1,34 +1,16 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
-import type { Author } from "../types/category.types";
+import type { Category } from "../types/category.types";
 
-export const columns: ColumnDef<Author>[] = [
+export const columns: ColumnDef<Category>[] = [
   {
-    accessorKey: "firstName",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="First Name" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("firstName")}</div>
-    ),
-  },
-  {
-    accessorKey: "lastName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Name" />
-    ),
-    cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("lastName")}</div>
-    ),
-  },
-  {
-    accessorKey: "countryName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Country" />
-    ),
-    cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("countryName")}</div>
+      <div className="font-medium">{row.getValue("name")}</div>
     ),
   },
 

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { authorsApi } from "../api/categories.api";
+import { categoriesApi } from "../api/categories.api";
 
-export function useAuthors() {
+export function useCategories() {
   return useQuery({
-    queryKey: ["authors"],
-    queryFn: authorsApi.getAll,
+    queryKey: ["categories"],
+    queryFn: categoriesApi.getAll,
   });
 }

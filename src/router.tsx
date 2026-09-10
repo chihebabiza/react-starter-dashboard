@@ -4,6 +4,7 @@ import App from "./App";
 import { Books } from "@/features/books/pages/Books";
 import { Dashboard } from "./features/dashboard/pages/Dashboard";
 import { Authors } from "./features/authors/pages/Authors";
+import { Categories } from "./features/categories/pages/Categories";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "authors",
         element: <Authors />,
+      },
+      {
+        path: "categories",
+        element: <Categories />,
       },
     ],
   },

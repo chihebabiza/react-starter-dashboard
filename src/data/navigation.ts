@@ -16,4 +16,9 @@ export const navigation = [
     path: "/authors",
     icon: Users,
   },
+  {
+    title: "Categories",
+    path: "/categories",
+    icon: BookOpen,
+  },
 ];

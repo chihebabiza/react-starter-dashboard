@@ -1,19 +1,13 @@
-export type Author = {
+export type Category = {
   id: number;
-  firstName: string;
-  lastName: string;
+  name: string;
   createdAt: string;
-  countryName: string;
 };
 
-export type AuthorCreate = {
-  firstName: string;
-  lastName: string;
-  countryId: number;
+export type CategoryCreate = {
+  name: string;
 };
 
-export type AuthorUpdate = {
-  firstName: string;
-  lastName: string;
-  countryId: number;
+export type CategoryUpdate = {
+  name: string;
 };

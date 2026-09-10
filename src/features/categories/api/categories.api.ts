@@ -1,29 +1,29 @@
 import { apiClient } from "@/lib/api-client";
 import type {
-  Author,
-  AuthorCreate,
-  AuthorUpdate,
+  Category,
+  CategoryCreate,
+  CategoryUpdate,
 } from "../types/category.types";
 
-export const authorsApi = {
-  getAll: () => apiClient<Author[]>("/Author"),
+export const categoriesApi = {
+  getAll: () => apiClient<Category[]>("/Category"),
 
-  getById: (id: number) => apiClient<Author>(`/Author/${id}`),
+  getById: (id: number) => apiClient<Category>(`/Category/${id}`),
 
-  create: (author: AuthorCreate) =>
-    apiClient<Author>("/Author", {
+  create: (category: CategoryCreate) =>
+    apiClient<Category>("/Category", {
       method: "POST",
-      body: JSON.stringify(author),
+      body: JSON.stringify(category),
     }),
 
-  update: (id: number, author: AuthorUpdate) =>
-    apiClient<Author>(`/Author/${id}`, {
+  update: (id: number, category: CategoryUpdate) =>
+    apiClient<Category>(`/Category/${id}`, {
       method: "PUT",
-      body: JSON.stringify(author),
+      body: JSON.stringify(category),
     }),
 
   delete: (id: number) =>
-    apiClient<void>(`/Author/${id}`, {
+    apiClient<void>(`/Category/${id}`, {
       method: "DELETE",
     }),
 };
