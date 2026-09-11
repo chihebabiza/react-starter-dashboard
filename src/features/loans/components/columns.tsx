@@ -3,6 +3,12 @@ import { CheckCircle } from "lucide-react";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { Loan } from "@/features/loans/types/loan.types";
 
 function formatDate(value?: string) {
@@ -66,17 +72,34 @@ export function getColumns(onReturn: (loan: Loan) => void): ColumnDef<Loan>[] {
       id: "actions",
       header: "Actions",
       enableHiding: false,
-      cell: ({ row }) =>
-        row.original.returnedDate ? null : (
-          <Button
-            variant="ghost"
-            size="icon"
-            title="Return book"
-            onClick={() => onReturn(row.original)}
-          >
-            <CheckCircle className="size-4 text-green-600" />
-          </Button>
-        ),
+      cell: ({ row }) => {
+        const isReturned = Boolean(row.original.returnedDate);
+        const actionLabel = isReturned
+          ? "Book already returned"
+          : "Return book";
+
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className={isReturned ? "cursor-not-allowed" : ""}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={actionLabel}
+                    disabled={isReturned}
+                    className="disabled:cursor-not-allowed"
+                    onClick={() => onReturn(row.original)}
+                  >
+                    <CheckCircle className="size-4 text-green-600" />
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>{actionLabel}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      },
     },
   ];
 }
