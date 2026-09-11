@@ -11,13 +11,13 @@ export const booksApi = {
   getById: (id: number) => apiClient<Book>(`/Book/${id}`),
 
   create: (book: BookCreate) =>
-    apiClient<Book>("/Book", {
+    apiClient<number>("/Book", {
       method: "POST",
       body: JSON.stringify(book),
     }),
 
   update: (id: number, book: BookUpdate) =>
-    apiClient<Book>(`/Book/${id}`, {
+    apiClient<{ message: string }>(`/Book/${id}`, {
       method: "PUT",
       body: JSON.stringify(book),
     }),

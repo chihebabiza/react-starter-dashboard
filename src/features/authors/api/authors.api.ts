@@ -7,13 +7,13 @@ export const authorsApi = {
   getById: (id: number) => apiClient<Author>(`/Author/${id}`),
 
   create: (author: AuthorCreate) =>
-    apiClient<Author>("/Author", {
+    apiClient<number>("/Author", {
       method: "POST",
       body: JSON.stringify(author),
     }),
 
   update: (id: number, author: AuthorUpdate) =>
-    apiClient<Author>(`/Author/${id}`, {
+    apiClient<{ message: string }>(`/Author/${id}`, {
       method: "PUT",
       body: JSON.stringify(author),
     }),

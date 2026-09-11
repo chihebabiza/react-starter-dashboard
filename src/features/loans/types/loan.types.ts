@@ -20,7 +20,3 @@ export type LoanCreate = {
 export type LoanUpdate = {
   returnedDate: string;
 };
-
-export type LoanCreateResponse = {
-  id: number;
-};

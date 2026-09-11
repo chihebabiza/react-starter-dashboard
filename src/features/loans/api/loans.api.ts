@@ -1,13 +1,12 @@
 import { apiClient } from "@/lib/api-client";
 import type {
   LoanCreate,
-  LoanCreateResponse,
   LoanUpdate,
 } from "@/features/loans/types/loan.types";
 
 export const loansApi = {
   create: (loan: LoanCreate) =>
-    apiClient<LoanCreateResponse>("/Loan", {
+    apiClient<number>("/Loan", {
       method: "POST",
       body: JSON.stringify(loan),
     }),

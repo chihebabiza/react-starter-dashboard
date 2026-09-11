@@ -113,7 +113,7 @@ export function CreateLoanForm({ member, onSuccess }: CreateLoanFormProps) {
             </option>
             {copies.map((copy) => (
               <option key={copy.id} value={copy.id}>
-                Copy {copy.copyNumber}
+                BC-{copy.copyNumber}
               </option>
             ))}
           </select>

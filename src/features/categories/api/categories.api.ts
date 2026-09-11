@@ -11,13 +11,13 @@ export const categoriesApi = {
   getById: (id: number) => apiClient<Category>(`/Category/${id}`),
 
   create: (category: CategoryCreate) =>
-    apiClient<Category>("/Category", {
+    apiClient<number>("/Category", {
       method: "POST",
       body: JSON.stringify(category),
     }),
 
   update: (id: number, category: CategoryUpdate) =>
-    apiClient<Category>(`/Category/${id}`, {
+    apiClient<{ message: string }>(`/Category/${id}`, {
       method: "PUT",
       body: JSON.stringify(category),
     }),
