@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -39,6 +39,9 @@ export function DataTable<TData, TValue>({
   data,
   exportFileName = "export",
 }: DataTableProps<TData, TValue>) {
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
+  const topScrollRef = useRef<HTMLDivElement>(null);
+  const [tableWidth, setTableWidth] = useState(0);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -88,6 +91,39 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {
+    const tableWrapper = tableWrapperRef.current;
+    const topScroll = topScrollRef.current;
+    const tableScroll = tableWrapper?.querySelector<HTMLElement>(
+      '[data-slot="table-container"]',
+    );
+
+    if (!tableScroll || !topScroll) {
+      return;
+    }
+
+    const updateWidth = () => setTableWidth(tableScroll.scrollWidth);
+    const syncFromTop = () => {
+      tableScroll.scrollLeft = topScroll.scrollLeft;
+    };
+    const syncFromTable = () => {
+      topScroll.scrollLeft = tableScroll.scrollLeft;
+    };
+
+    updateWidth();
+    topScroll.addEventListener("scroll", syncFromTop);
+    tableScroll.addEventListener("scroll", syncFromTable);
+
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(tableScroll);
+
+    return () => {
+      topScroll.removeEventListener("scroll", syncFromTop);
+      tableScroll.removeEventListener("scroll", syncFromTable);
+      resizeObserver.disconnect();
+    };
+  }, [columns, data, table.getState().columnVisibility]);
+
   return (
     <div className="w-full space-y-4">
       {/* Toolbar */}
@@ -98,7 +134,10 @@ export function DataTable<TData, TValue>({
       />
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div ref={tableWrapperRef} className="rounded-md border">
+        <div ref={topScrollRef} className="w-full overflow-x-auto">
+          <div style={{ width: tableWidth, height: 1 }} />
+        </div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
