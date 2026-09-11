@@ -1,10 +1,12 @@
 import type { BookCopy } from "@/features/book-copies/types/book-copy.types";
+import type { Book } from "@/features/books/types/book.types";
 import type { Member } from "@/features/members/types/member.types";
 
 export type Loan = {
   id: number;
   member: Member;
   bookCopy: BookCopy;
+  book: Book;
   borrowedDate: string;
   returnedDate?: string;
   duoDate: string;
