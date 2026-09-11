@@ -1,9 +1,17 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { loansApi } from "@/features/loans/api/loans.api";
 import type { LoanCreate } from "@/features/loans/types/loan.types";
 
 const LOANS_QUERY_KEY = ["loans"];
+
+export function useLoansByMember(memberId: number) {
+  return useQuery({
+    queryKey: [...LOANS_QUERY_KEY, "member", memberId],
+    queryFn: () => loansApi.getByMemberId(memberId),
+    enabled: memberId > 0,
+  });
+}
 
 export function useCreateLoan() {
   const queryClient = useQueryClient();

@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { BookPlus, Pencil, Trash2 } from "lucide-react";
+import { BookPlus, Eye, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 import { ActionButtons } from "@/components/common/ActionButtons";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
@@ -17,6 +18,7 @@ type MemberActionsProps = {
 };
 
 export function MemberActions({ member }: MemberActionsProps) {
+  const navigate = useNavigate();
   const [editOpen, setEditOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [loanOpen, setLoanOpen] = React.useState(false);
@@ -39,6 +41,13 @@ export function MemberActions({ member }: MemberActionsProps) {
     <>
       <ActionButtons
         actions={[
+          {
+            label: "See member loans",
+            icon: <Eye className="h-4 w-4" />,
+            onClick: () => navigate(`/members/${member.id}/loans`),
+            className:
+              "text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700",
+          },
           {
             label: "Add loan for member",
             icon: <BookPlus className="h-4 w-4" />,

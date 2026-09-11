@@ -15,6 +15,14 @@ export function useMembers() {
   });
 }
 
+export function useMember(id: number) {
+  return useQuery({
+    queryKey: [...MEMBERS_QUERY_KEY, id],
+    queryFn: () => membersApi.getById(id),
+    enabled: id > 0,
+  });
+}
+
 export function useCreateMember() {
   const queryClient = useQueryClient();
 
