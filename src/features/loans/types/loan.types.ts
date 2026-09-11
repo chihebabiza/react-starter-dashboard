@@ -9,7 +9,7 @@ export type Loan = {
   book: Book;
   borrowedDate: string;
   returnedDate?: string;
-  duoDate: string;
+  dueDate: string;
 };
 
 export type LoanCreate = {

@@ -1,11 +1,15 @@
 import { ArrowLeft } from "lucide-react";
+import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { DataTable } from "@/components/data-table/DataTable";
 import { Button } from "@/components/ui/button";
+import { FormSheet } from "@/components/common/FormSheet";
 import { useMember } from "@/features/members/hooks/useMembers";
-import { columns } from "@/features/loans/components/columns";
+import { getColumns } from "@/features/loans/components/columns";
+import { ReturnLoanForm } from "@/features/loans/components/ReturnLoanForm";
 import { useLoansByMember } from "@/features/loans/hooks/useLoans";
+import type { Loan } from "@/features/loans/types/loan.types";
 
 export function MemberLoans() {
   const navigate = useNavigate();
@@ -13,6 +17,7 @@ export function MemberLoans() {
   const parsedMemberId = Number(memberId);
   const memberQuery = useMember(parsedMemberId);
   const loansQuery = useLoansByMember(parsedMemberId);
+  const [returnLoan, setReturnLoan] = React.useState<Loan | null>(null);
 
   if (!Number.isInteger(parsedMemberId) || parsedMemberId <= 0) {
     return <p className="text-destructive">Invalid member.</p>;
@@ -59,10 +64,21 @@ export function MemberLoans() {
       </div>
 
       <DataTable
-        columns={columns}
+        columns={getColumns(setReturnLoan)}
         data={loansQuery.data ?? []}
         exportFileName={`loans`}
       />
+      {returnLoan && (
+        <FormSheet
+          open={Boolean(returnLoan)}
+          onOpenChange={(open) => !open && setReturnLoan(null)}
+        >
+          <ReturnLoanForm
+            loan={returnLoan}
+            onSuccess={() => setReturnLoan(null)}
+          />
+        </FormSheet>
+      )}
     </div>
   );
 }
