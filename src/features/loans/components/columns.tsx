@@ -15,11 +15,8 @@ function formatDate(value?: string) {
   }).format(new Date(value));
 }
 
-export function getColumns(
-  onReturn: (loan: Loan) => void,
-  showActions: boolean,
-): ColumnDef<Loan>[] {
-  const columns: ColumnDef<Loan>[] = [
+export function getColumns(onReturn: (loan: Loan) => void): ColumnDef<Loan>[] {
+  return [
     {
       id: "book",
       header: ({ column }) => (
@@ -65,15 +62,14 @@ export function getColumns(
       accessorFn: (loan) => (loan.returnedDate ? "Returned" : "Active"),
       cell: ({ row }) => (row.original.returnedDate ? "Returned" : "Active"),
     },
-  ];
-
-  if (showActions) {
-    columns.push({
+    {
       id: "actions",
       header: "Actions",
       enableHiding: false,
       cell: ({ row }) =>
-        row.original.returnedDate ? null : (
+        row.original.returnedDate ? (
+          <span className="text-muted-foreground">No actions</span>
+        ) : (
           <Button
             variant="ghost"
             size="icon"
@@ -84,8 +80,6 @@ export function getColumns(
             <CheckCircle className="size-4 text-green-600" />
           </Button>
         ),
-    });
-  }
-
-  return columns;
+    },
+  ];
 }
