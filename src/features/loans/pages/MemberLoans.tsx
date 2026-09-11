@@ -64,7 +64,10 @@ export function MemberLoans() {
       </div>
 
       <DataTable
-        columns={getColumns(setReturnLoan)}
+        columns={getColumns(
+          setReturnLoan,
+          (loansQuery.data ?? []).some((loan) => !loan.returnedDate),
+        )}
         data={loansQuery.data ?? []}
         exportFileName={`loans`}
       />
