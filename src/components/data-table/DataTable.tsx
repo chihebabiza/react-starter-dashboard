@@ -42,6 +42,7 @@ export function DataTable<TData, TValue>({
   const tableWrapperRef = useRef<HTMLDivElement>(null);
   const topScrollRef = useRef<HTMLDivElement>(null);
   const [tableWidth, setTableWidth] = useState(0);
+  const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -102,7 +103,12 @@ export function DataTable<TData, TValue>({
       return;
     }
 
-    const updateWidth = () => setTableWidth(tableScroll.scrollWidth);
+    const updateWidth = () => {
+      setTableWidth(tableScroll.scrollWidth);
+      setHasHorizontalOverflow(
+        tableScroll.scrollWidth > tableScroll.clientWidth,
+      );
+    };
     const syncFromTop = () => {
       tableScroll.scrollLeft = topScroll.scrollLeft;
     };
@@ -135,7 +141,12 @@ export function DataTable<TData, TValue>({
 
       {/* Table */}
       <div ref={tableWrapperRef} className="rounded-md border">
-        <div ref={topScrollRef} className="h-4 w-full overflow-x-auto">
+        <div
+          ref={topScrollRef}
+          className={
+            hasHorizontalOverflow ? "h-4 w-full overflow-x-auto" : "hidden"
+          }
+        >
           <div style={{ width: tableWidth, height: 1 }} />
         </div>
         <Table>
