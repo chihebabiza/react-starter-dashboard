@@ -3,24 +3,27 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Header } from "@/components/layout/Header";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 
 function App() {
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background text-foreground">
-        <AppSidebar />
-        <Toaster />
+    <TooltipProvider>
+      <SidebarProvider>
+        <div className="flex min-h-screen w-full bg-background text-foreground">
+          <AppSidebar />
+          <Toaster />
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Header />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <Header />
 
-          <main className="flex-1 space-y-6 p-4 md:p-6">
-            <Outlet />
-          </main>
+            <main className="flex-1 space-y-6 p-4 md:p-6">
+              <Outlet />
+            </main>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
+    </TooltipProvider>
   );
 }
 
