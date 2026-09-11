@@ -122,7 +122,7 @@ export function DataTable<TData, TValue>({
       tableScroll.removeEventListener("scroll", syncFromTable);
       resizeObserver.disconnect();
     };
-  }, [columns, data, table.getState().columnVisibility]);
+  }, [columns, data, columnVisibility]);
 
   return (
     <div className="w-full space-y-4">
@@ -135,7 +135,7 @@ export function DataTable<TData, TValue>({
 
       {/* Table */}
       <div ref={tableWrapperRef} className="rounded-md border">
-        <div ref={topScrollRef} className="w-full overflow-x-auto">
+        <div ref={topScrollRef} className="h-4 w-full overflow-x-auto">
           <div style={{ width: tableWidth, height: 1 }} />
         </div>
         <Table>
