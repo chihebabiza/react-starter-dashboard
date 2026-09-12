@@ -1,4 +1,5 @@
 import { LogOut, Moon, Settings, Sun, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -17,6 +18,12 @@ import { useTheme } from "@/context/useTheme";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
 
   return (
     <header className="flex h-16 items-center border-b px-4 md:px-6">
@@ -77,7 +84,7 @@ export function Header() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               Log out
             </DropdownMenuItem>
