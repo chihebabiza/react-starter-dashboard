@@ -8,7 +8,11 @@ import { FormField } from "@/components/common/FormField";
 import { FormSubmitButton } from "@/components/common/FormSubmitButton";
 import { Input } from "@/components/ui/input";
 import { useCreateUser } from "@/features/users/hooks/useUsers";
-import { userRoles, type UserCreate } from "@/features/users/types/user.types";
+import {
+  userRoles,
+  type UserCreate,
+  type UserRoleValue,
+} from "@/features/users/types/user.types";
 import {
   Select,
   SelectContent,
@@ -29,6 +33,8 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateUserFormData>({
     resolver: zodResolver(createUserSchema),
@@ -40,6 +46,7 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
       role: 0,
     },
   });
+  const roleValue = watch("role");
 
   async function onSubmit(data: CreateUserFormData) {
     try {
@@ -78,7 +85,7 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
           <Input id="user-email" type="email" {...register("email")} />
         </FormField>
         <FormField
-          label="Password Hash"
+          label="Password"
           required
           error={errors.passwordHash?.message}
         >
@@ -88,7 +95,9 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
           <Select
             value={String(roleValue)}
             onValueChange={(value) =>
-              setValue("role", Number(value), { shouldValidate: true })
+              setValue("role", Number(value) as UserRoleValue, {
+                shouldValidate: true,
+              })
             }
           >
             <SelectTrigger id="user-role" className="w-full">

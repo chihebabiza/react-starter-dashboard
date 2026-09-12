@@ -4,7 +4,7 @@ export const userSchema = z.object({
   firstName: z.string().min(1, "First name is required").max(100),
   lastName: z.string().min(1, "Last name is required").max(100),
   email: z.string().email("Enter a valid email address"),
-  role: z.number().int().min(0).max(2, "Select a valid role"),
+  role: z.union([z.literal(0), z.literal(1), z.literal(2)]),
   isActive: z.boolean(),
 });
 
