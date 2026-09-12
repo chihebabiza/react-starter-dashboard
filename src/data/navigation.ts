@@ -26,4 +26,9 @@ export const navigation = [
     path: "/members",
     icon: Users,
   },
+  {
+    title: "Users",
+    path: "/users",
+    icon: Users,
+  },
 ];
