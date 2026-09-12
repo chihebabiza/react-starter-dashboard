@@ -65,80 +65,99 @@ export function Login() {
         </section>
 
         <main className="flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-sm space-y-7"
-      >
-        <div>
-          <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-xl bg-[#edf2c6] text-[#173c3a] lg:hidden">
-            <BookOpen size={21} strokeWidth={2.3} />
-          </div>
-          <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-[#e28d4a] uppercase">
-            Welcome back
-          </p>
-          <h1 className="text-4xl font-semibold tracking-[-0.04em] text-[#173c3a]">
-            Sign in to BookFlow
-          </h1>
-          <p className="mt-3 text-sm leading-6 text-[#71807b]">
-            Continue managing your library with clarity.
-          </p>
-        </div>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full max-w-sm space-y-7"
+          >
+            <div>
+              <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-xl bg-[#edf2c6] text-[#173c3a] lg:hidden">
+                <BookOpen size={21} strokeWidth={2.3} />
+              </div>
+              <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-[#e28d4a] uppercase">
+                Welcome back
+              </p>
+              <h1 className="text-4xl font-semibold tracking-[-0.04em] text-[#173c3a]">
+                Sign in to BookFlow
+              </h1>
+              <p className="mt-3 text-sm leading-6 text-[#71807b]">
+                Continue managing your library with clarity.
+              </p>
+            </div>
 
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-[#30403c]">
-            Email address
-          </label>
-          <div className="relative">
-            <Mail className="absolute top-1/2 left-4 -translate-y-1/2 text-[#8b9b94]" size={18} />
-          <input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            {...register("email")}
-            className="h-12 w-full rounded-xl border border-[#dbe2dc] bg-[#fbfcfa] pr-4 pl-11 text-sm outline-none transition placeholder:text-[#a9b4ae] focus:border-[#173c3a] focus:ring-4 focus:ring-[#d7e65f]/30"
-          />
-          </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="email"
+                className="text-sm font-medium text-[#30403c]"
+              >
+                Email address
+              </label>
+              <div className="relative">
+                <Mail
+                  className="absolute top-1/2 left-4 -translate-y-1/2 text-[#8b9b94]"
+                  size={18}
+                />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  {...register("email")}
+                  className="h-12 w-full rounded-xl border border-[#dbe2dc] bg-[#fbfcfa] pr-4 pl-11 text-sm outline-none transition placeholder:text-[#a9b4ae] focus:border-[#173c3a] focus:ring-4 focus:ring-[#d7e65f]/30"
+                />
+              </div>
 
-          {errors.email && (
-            <p className="text-sm text-red-600">{errors.email.message}</p>
-          )}
-        </div>
+              {errors.email && (
+                <p className="text-sm text-red-600">{errors.email.message}</p>
+              )}
+            </div>
 
-        <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium text-[#30403c]">
-            Password
-          </label>
-          <div className="relative">
-            <LockKeyhole className="absolute top-1/2 left-4 -translate-y-1/2 text-[#8b9b94]" size={18} />
-          <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            {...register("password")}
-            className="h-12 w-full rounded-xl border border-[#dbe2dc] bg-[#fbfcfa] pr-4 pl-11 text-sm outline-none transition placeholder:text-[#a9b4ae] focus:border-[#173c3a] focus:ring-4 focus:ring-[#d7e65f]/30"
-          />
-          </div>
+            <div className="space-y-2">
+              <label
+                htmlFor="password"
+                className="text-sm font-medium text-[#30403c]"
+              >
+                Password
+              </label>
+              <div className="relative">
+                <LockKeyhole
+                  className="absolute top-1/2 left-4 -translate-y-1/2 text-[#8b9b94]"
+                  size={18}
+                />
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  {...register("password")}
+                  className="h-12 w-full rounded-xl border border-[#dbe2dc] bg-[#fbfcfa] pr-4 pl-11 text-sm outline-none transition placeholder:text-[#a9b4ae] focus:border-[#173c3a] focus:ring-4 focus:ring-[#d7e65f]/30"
+                />
+              </div>
 
-          {errors.password && (
-            <p className="text-sm text-red-600">{errors.password.message}</p>
-          )}
-        </div>
+              {errors.password && (
+                <p className="text-sm text-red-600">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
 
-        {loginMutation.isError && (
-          <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            Invalid email or password.
-          </p>
-        )}
+            {loginMutation.isError && (
+              <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                Invalid email or password.
+              </p>
+            )}
 
-        <button
-          type="submit"
-          disabled={loginMutation.isPending}
-          className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173c3a] text-sm font-semibold text-white transition hover:bg-[#235651] focus:ring-4 focus:ring-[#d7e65f]/40 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {loginMutation.isPending ? "Signing in..." : "Sign in"}
-          {!loginMutation.isPending && <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />}
-        </button>
-      </form>
+            <button
+              type="submit"
+              disabled={loginMutation.isPending}
+              className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173c3a] text-sm font-semibold text-white transition hover:bg-[#235651] focus:ring-4 focus:ring-[#d7e65f]/40 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loginMutation.isPending ? "Signing in..." : "Sign in"}
+              {!loginMutation.isPending && (
+                <ArrowRight
+                  size={17}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              )}
+            </button>
+          </form>
         </main>
       </div>
     </div>
