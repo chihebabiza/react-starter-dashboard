@@ -22,4 +22,10 @@ export const usersApi = {
     apiClient<void>(`/User/${id}`, {
       method: "DELETE",
     }),
+
+  login: (credentials: { email: string; password: string }) =>
+    apiClient<{ token: string }>("/User/login", {
+      method: "POST",
+      body: JSON.stringify(credentials),
+    }),
 };

@@ -38,3 +38,12 @@ export type UserUpdate = {
 export function getUserRoleValue(role: UserRoleName): UserRoleValue {
   return userRoles.find((userRole) => userRole.label === role)?.value ?? 0;
 }
+
+export type UserLogin = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponse = {
+  token: string;
+};
