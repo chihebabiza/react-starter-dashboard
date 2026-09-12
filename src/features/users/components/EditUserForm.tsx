@@ -9,8 +9,20 @@ import { FormSubmitButton } from "@/components/common/FormSubmitButton";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useUpdateUser } from "@/features/users/hooks/useUsers";
-import type { User, UserUpdate } from "@/features/users/types/user.types";
+import {
+  getUserRoleValue,
+  userRoles,
+  type User,
+  type UserUpdate,
+} from "@/features/users/types/user.types";
 import { userSchema, type EditUserFormData } from "../schemas/user.schema";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type EditUserFormProps = { user: User; onSuccess: () => void };
 
@@ -27,8 +39,7 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      passwordHash: user.passwordHash,
-      role: user.role,
+      role: getUserRoleValue(user.role),
       isActive: user.isActive,
     },
   });
@@ -40,7 +51,6 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         firstName: data.firstName.trim(),
         lastName: data.lastName.trim(),
         email: data.email.trim(),
-        passwordHash: data.passwordHash.trim(),
       };
       await updateUserMutation.mutateAsync({ id: user.id, user: userData });
       toast.success("User updated successfully");
@@ -74,20 +84,24 @@ export function EditUserForm({ user, onSuccess }: EditUserFormProps) {
         <FormField label="Email" required error={errors.email?.message}>
           <Input id="user-email" type="email" {...register("email")} />
         </FormField>
-        <FormField
-          label="Password Hash"
-          required
-          error={errors.passwordHash?.message}
-        >
-          <Input id="user-password-hash" {...register("passwordHash")} />
-        </FormField>
         <FormField label="Role" required error={errors.role?.message}>
-          <Input
-            id="user-role"
-            type="number"
-            min={0}
-            {...register("role", { valueAsNumber: true })}
-          />
+          <Select
+            value={String(control._formValues.role)}
+            onValueChange={(value) =>
+              (control._formValues.role = Number(value))
+            }
+          >
+            <SelectTrigger id="user-role" className="w-full">
+              <SelectValue placeholder="Select a role" />
+            </SelectTrigger>
+            <SelectContent>
+              {userRoles.map((role) => (
+                <SelectItem key={role.value} value={String(role.value)}>
+                  {role.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
         <FormField label="Active">
           <Controller

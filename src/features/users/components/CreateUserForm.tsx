@@ -8,7 +8,14 @@ import { FormField } from "@/components/common/FormField";
 import { FormSubmitButton } from "@/components/common/FormSubmitButton";
 import { Input } from "@/components/ui/input";
 import { useCreateUser } from "@/features/users/hooks/useUsers";
-import type { UserCreate } from "@/features/users/types/user.types";
+import { userRoles, type UserCreate } from "@/features/users/types/user.types";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   createUserSchema,
   type CreateUserFormData,
@@ -78,12 +85,23 @@ export function CreateUserForm({ onSuccess }: CreateUserFormProps) {
           <Input id="user-password-hash" {...register("passwordHash")} />
         </FormField>
         <FormField label="Role" required error={errors.role?.message}>
-          <Input
-            id="user-role"
-            type="number"
-            min={0}
-            {...register("role", { valueAsNumber: true })}
-          />
+          <Select
+            value={String(roleValue)}
+            onValueChange={(value) =>
+              setValue("role", Number(value), { shouldValidate: true })
+            }
+          >
+            <SelectTrigger id="user-role" className="w-full">
+              <SelectValue placeholder="Select a role" />
+            </SelectTrigger>
+            <SelectContent>
+              {userRoles.map((role) => (
+                <SelectItem key={role.value} value={String(role.value)}>
+                  {role.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </FormField>
       </div>
       <FormSubmitButton

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import { DataTableColumnHeader } from "@/components/data-table/DataTableColumnHeader";
 import { UserActions } from "./UserActions";
-import type { User } from "../types/user.types";
+import { userRoles, type User } from "../types/user.types";
 
 export const columns: ColumnDef<User>[] = [
   ...(["firstName", "lastName", "email", "role"] as const).map((key) => ({
@@ -23,9 +23,16 @@ export const columns: ColumnDef<User>[] = [
         }
       />
     ),
-    cell: ({ row }: { row: { getValue: (key: string) => unknown } }) => (
-      <div className="font-medium">{String(row.getValue(key))}</div>
-    ),
+    cell: ({ row }: { row: { getValue: (key: string) => unknown } }) => {
+      const value = row.getValue(key);
+      const displayValue =
+        key === "role"
+          ? (userRoles.find((role) => role.label === value)?.label ??
+            String(value))
+          : String(value);
+
+      return <div className="font-medium">{displayValue}</div>;
+    },
   })),
   {
     accessorKey: "createdAt",
